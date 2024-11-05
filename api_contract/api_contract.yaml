@@ -1,0 +1,173 @@
+openapi: 3.0.0
+info:
+  version: 2.0.1
+  title: TEP_Claims_API
+  description: API for managing travel expense claims for employees
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/HELPERZAR_1/TEP_Claims_API/2.0.1
+security:
+  - BearerAuth: []
+paths:
+  /login:
+    post:
+      summary: Login for user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        "200":
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+              example:
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"  # JWT token example
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: "Invalid username or password"
+  /logout:
+    post:
+      summary: Logout the user
+      description: Invalidate the current session and logout the user
+      responses:
+        "200":
+          description: Logout successful
+          content:
+            application/json:
+              example:
+                message: "User successfully logged out"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: "User is not authenticated"
+  /claims:
+    post:
+      summary: Submit a new travel expense claim
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Claim'
+        required: true
+      responses:
+        "201":
+          description: Claim successfully submitted
+          content:
+            application/json:
+              example:
+                message: "Claim successfully submitted"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              example:
+                message: "Invalid claim details"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: "Unauthorized access"
+    get:
+      summary: Retrieve all claims submitted by the employee
+      responses:
+        "200":
+          description: List of claims successfully loaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimsArray'
+              example:
+                - title: "Taxi from airport to hotel"
+                  description: "Taxi fare from Schiphol Airport to city center hotel"
+                  amount: "45.75"
+                - title: "Hotel stay for business meeting"
+                  description: "One-night stay at Hilton Hotel for client meeting"
+                  amount: "150.00"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: "Unauthorized access"
+components:
+  schemas:
+    LoginRequest:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 16
+          pattern: '^[A-Za-z0-9]+$'
+          description: 'Username requires 3-16 characters, capitals, small letters, and numbers are allowed.'
+          example: "johndoe123"
+        password: 
+          type: string
+          minLength: 6
+          maxLength: 20
+          pattern: '^(?=.*[0-9])(?=.*[\W_]).+$'
+          description: 'Password requires 6-20 characters, including at least 1 number and 1 special character.'
+          example: "Password@123"
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT Token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"  # JWT token example
+    Claim:
+      required:
+        - amount
+        - description
+        - title
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 10
+          pattern: '^[a-zA-Z0-9 ]+$'
+          description: 'Title requires 3-10 characters, only letters (A-Z, a-z), numbers (0-9), and spaces are allowed.'
+          example: "Taxi from airport"
+        description: 
+          type: string
+          minLength: 3
+          maxLength: 50
+          pattern: '^[a-zA-Z0-9 ]+$'
+          description: 'Description requires 3-50 characters, only letters, numbers, and spaces are allowed.'
+          example: "Taxi fare from Schiphol Airport to city center hotel"
+        amount:
+          type: string
+          pattern: '^[0-9]+([,.][0-9]{1,2})?$'
+          description: 'Amount can be any number between 1.00 and 10000.00, allowing up to 2 decimal places.'
+          example: "45.75"
+    ClaimsArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/Claim'
+      example:
+        - title: "Taxi from airport to hotel"
+          description: "Taxi fare from Schiphol Airport to city center hotel"
+          amount: "45.75"
+        - title: "Hotel stay for business meeting"
+          description: "One-night stay at Hilton Hotel for client meeting"
+          amount: "150.00"
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
