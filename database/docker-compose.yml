@@ -1,0 +1,17 @@
+services:
+  sqlserver:
+    build: .
+    container_name: sqlserver
+    ports:
+      - "1434:1433"  # Expose port 1434 on the host, map to 1433 in the container
+    environment:
+      SA_PASSWORD: "YourPassword!123"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - ./setup.sql:/var/opt/mssql/scripts/setup.sql  # Ensure the path is consistent with Dockerfile
+    networks:
+      - sql_network
+
+networks:
+  sql_network:
+    driver: bridge
