@@ -18,7 +18,7 @@ GO
 CREATE TABLE Users
 (
 	id INT IDENTITY(1,1) NOT NULL,
-	username VARCHAR(20) NOT NULL UNIQUE,
+	username VARCHAR(16) NOT NULL UNIQUE,
 	password VARCHAR(60) NOT NULL,
 	CONSTRAINT PK_User PRIMARY KEY (id),
 	CONSTRAINT CK_username_length CHECK (LEN(username) >= 3 AND LEN(username) <= 16),
@@ -30,8 +30,8 @@ CREATE TABLE Claims
 (
     id INT IDENTITY(1,1) NOT NULL,	
     user_id INT NOT NULL,
-    title VARCHAR(50) NOT NULL,
-    description VARCHAR(150) NOT NULL,
+    title VARCHAR(10) NOT NULL,
+    description VARCHAR(50) NOT NULL,
     amount SMALLMONEY NOT NULL,
     CONSTRAINT PK_Claim PRIMARY KEY (id),
     CONSTRAINT FK_Claim_User FOREIGN KEY (user_id) REFERENCES Users(id),
