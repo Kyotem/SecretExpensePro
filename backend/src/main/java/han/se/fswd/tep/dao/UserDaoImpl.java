@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findByUsername(String username) {
 
-        // TODO: Implement Checks against special characters (use regex to only allow nums and standard chars) - !Matcher
+        // Doing a basic check here, the login data being passed through should already have been validated before it reaches this point
         if (username == null || username.length() < 3 || username.length() > 16) {
             throw new InvalidUserInputException("Username must be between 3 and 16 characters");
         }
