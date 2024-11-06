@@ -28,7 +28,7 @@ class UserTest {
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
                 () -> user.setUsername(null));
-        assertEquals("Username must be between 3 and 20 characters.", thrown.getMessage());
+        assertEquals("Username must be between 3 and 16 characters.", thrown.getMessage());
     }
 
     @Test
@@ -40,7 +40,7 @@ class UserTest {
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
                 () -> user.setUsername(shortUsername));
-        assertEquals("Username must be between 3 and 20 characters.", thrown.getMessage());
+        assertEquals("Username must be between 3 and 16 characters.", thrown.getMessage());
     }
 
     @Test
@@ -52,7 +52,7 @@ class UserTest {
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
                 () -> user.setUsername(longUsername));
-        assertEquals("Username must be between 3 and 20 characters.", thrown.getMessage());
+        assertEquals("Username must be between 3 and 16 characters.", thrown.getMessage());
     }
 
     @Test

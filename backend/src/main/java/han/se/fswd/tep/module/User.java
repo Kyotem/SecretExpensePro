@@ -32,7 +32,7 @@ public class User {
     // For future use, might be better to use the Bean Validation, for now sticking with throwing Exceptions manually.
     public void setUsername(String username) {
         if (username == null || username.length() < 3 || username.length() > 16) {
-            throw new IllegalArgumentException("Username must be between 3 and 20 characters.");
+            throw new IllegalArgumentException("Username must be between 3 and 16 characters.");
         }
         this.username = username;
     }

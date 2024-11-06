@@ -24,7 +24,7 @@ class GlobalExceptionHandlerTest {
 
         // Assert
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals("User not found", response.getBody());
+        assertEquals("Invalid username or password", response.getBody());
     }
 
     @Test

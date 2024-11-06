@@ -12,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // Create passwordencoder for BCrypt
+    // Create password encoder for BCrypt
     @Bean
     public PasswordEncoder passwordEncoder() {
         // Set the work factor for the BCrypt Hasher (Work Factor of 12 takes roughly 0.3563s for each password, but can vary)
