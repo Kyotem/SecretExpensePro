@@ -41,3 +41,10 @@ CREATE TABLE Claims
 );
 
 -- Run population scripts below this point
+
+-- Inserting user testdata
+INSERT INTO Users (username, password) VALUES 
+('DeEchteJan12', '$2a$12$FgZzGDvkzfyksi6MlvhjgeRtmPbOdN1aBxT672yQj.zuN47cJr5oa'),
+('BertJan', '$2a$12$BIgcr6.3cXBd.oO4O.F/MeXO0bUS.J2dinR/bXVALn3KSGiPp2pia'),
+('JanDeMan', '$2a$12$3X2PcJbBvBjs2G/NDxr0Ae5ZfFIBizRCmDqNZiIEE3ab0r7KDe3vO')
+

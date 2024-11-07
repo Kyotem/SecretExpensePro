@@ -22,6 +22,7 @@ public class UserServiceTest {
     @Mock
     private UserDaoImpl userDaoImpl;
 
+
     @InjectMocks
     private UserService sut;  // System Under Test
 
@@ -65,8 +66,7 @@ public class UserServiceTest {
         String result = sut.authenticateUser(testUsername, testPassword);
 
         // Assert
-        // FIXME Temp, Update when JWTUtil is properly created
-        assertEquals("JWT Issued", result);
+        assertEquals("Token Issued", result);
     }
 
     @Test
@@ -79,4 +79,5 @@ public class UserServiceTest {
                 () -> sut.authenticateUser(testUsername, "wrongPassword"));
         assertEquals("Passwords do not match", exception.getMessage());
     }
+
 }
