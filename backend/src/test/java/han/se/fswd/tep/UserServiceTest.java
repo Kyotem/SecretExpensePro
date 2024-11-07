@@ -1,12 +1,13 @@
 package han.se.fswd.tep;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import han.se.fswd.tep.dao.UserDaoImpl;
 import han.se.fswd.tep.exceptions.InvalidPasswordException;
 import han.se.fswd.tep.module.User;
 import han.se.fswd.tep.service.UserService;
+import han.se.fswd.tep.service.JwtUtil;  // Import JwtUtil
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,8 @@ public class UserServiceTest {
     @Mock
     private UserDaoImpl userDaoImpl;
 
+    @Mock
+    private JwtUtil jwtUtil;  // Mock JwtUtil to simulate JWT generation
 
     @InjectMocks
     private UserService sut;  // System Under Test
@@ -36,7 +39,7 @@ public class UserServiceTest {
     void setUp() {
         // Use BCryptPasswordEncoder to hash the password
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-        sut = new UserService(passwordEncoder, userDaoImpl);
+        sut = new UserService(passwordEncoder, userDaoImpl, jwtUtil);
 
         String rawPasswordWithPepper = testPassword + pepperValue;
         String hashedPassword = passwordEncoder.encode(rawPasswordWithPepper);
@@ -61,12 +64,14 @@ public class UserServiceTest {
     void authenticateUser_WhenUserExistsAndPasswordIsCorrect_ShouldReturnJwt() {
         // Arrange
         when(userDaoImpl.findByUsername(testUsername)).thenReturn(mockUser);
+        String expectedToken = "someJWTToken"; // Simulate JWT string
+        when(jwtUtil.generateToken(mockUser.getId())).thenReturn(expectedToken);
 
         // Act
         String result = sut.authenticateUser(testUsername, testPassword);
 
         // Assert
-        assertEquals("Token Issued", result);
+        assertEquals(expectedToken, result); // Ensure the token returned is the same as the mocked token
     }
 
     @Test
@@ -79,5 +84,4 @@ public class UserServiceTest {
                 () -> sut.authenticateUser(testUsername, "wrongPassword"));
         assertEquals("Passwords do not match", exception.getMessage());
     }
-
 }

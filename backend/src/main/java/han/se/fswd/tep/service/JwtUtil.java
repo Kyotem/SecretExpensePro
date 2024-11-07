@@ -1,9 +1,10 @@
-package han.se.fswd.tep.security;
+package han.se.fswd.tep.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+@Service
 public class JwtUtil {
 
     private static final String SECRET = "GuPXPT^-TK.wuSyv4+OX\"j<~=ealJPVpQUTV5t037^Wg92m~e`"; // JWT Secret
