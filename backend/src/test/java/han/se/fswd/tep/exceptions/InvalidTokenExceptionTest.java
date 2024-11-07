@@ -9,7 +9,7 @@ class InvalidTokenExceptionTest {
     @Test
     void constructorWithMessage_ShouldSetMessage() {
         // Arrange
-        String message = "Database error";
+        String message = "Invalid Token";
 
         // Act
         InvalidTokenException de = new InvalidTokenException(message);
@@ -21,7 +21,7 @@ class InvalidTokenExceptionTest {
     @Test
     void constructorWithMessageAndCause_ShouldSetMessageAndCause() {
         // Arrange
-        String message = "Database error";
+        String message = "Invalid Token";
         RuntimeException cause = new RuntimeException("Cause of the error");
 
         // Act
