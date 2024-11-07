@@ -29,8 +29,8 @@ public class UserService {
         // If it does not match, exception will be thrown, further code execution should stop.
         validateUserPassword(password, dbPassword);
 
-        // FIXME Temp return, update with token once JWTUtil is available
-        return "JWT Issued";
+        // TODO replace with token func once jwtutil impl.
+        return "Token Issued";
     }
 
     public void validateUserPassword(String rawPassword, String storedHashedPassword) {
