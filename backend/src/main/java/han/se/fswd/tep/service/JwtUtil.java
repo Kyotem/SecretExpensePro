@@ -20,7 +20,7 @@
         private static final String SECRET = "GuPXPT^-TK.wuSyv4+OX\"j<~=ealJPVpQUTV5t037^Wg92m~e`"; // JWT Secret
         private static final long EXPIRATION_DURATION = 120; // Expiry time in minutes
 
-        // Token blacklist (in-memory)
+        // Token blacklist (in-memory so it is wiped on each restart)
         private final Set<String> tokenBlacklist = new ConcurrentSkipListSet<>();
 
         // Blacklists a token
@@ -78,6 +78,7 @@
             return tokenBlacklist.contains(token);
         }
 
+        // Checks if a token is expired
         private boolean isTokenExpired(Claims claims) {
             Instant expiration = claims.getExpiration().toInstant();
             return expiration.isBefore(Instant.now());
