@@ -13,11 +13,13 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserDao userDaoImpl;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserService(PasswordEncoder passwordEncoder, UserDaoImpl userDaoImpl) {
+    public UserService(PasswordEncoder passwordEncoder, UserDaoImpl userDaoImpl, JwtUtil jwtUtil) {
         this.passwordEncoder = passwordEncoder;
         this.userDaoImpl = userDaoImpl;
+        this.jwtUtil = jwtUtil;
     }
 
     public String authenticateUser(String username, String password) {
@@ -26,16 +28,15 @@ public class UserService {
 
         String dbPassword = user.getPassword();
 
-        // If it does not match, exception will be thrown, further code execution should stop.
+        // If password does not match with password in DB, exception will be thrown
         validateUserPassword(password, dbPassword);
 
-        // TODO replace with token func once jwtutil impl.
-        return "Token Issued";
+        // Return a JWT Token based on the userID
+        return jwtUtil.generateToken(user.getId());
     }
 
     public void validateUserPassword(String rawPassword, String storedHashedPassword) {
         // Check if the provided password (with pepper) matches the hashed password from the DB
-
         // Would be better to move to application.properties or .env file, for now putting the pepper directly here.
         String pepper = "DGmhu0H![3(]z.1u=+vlfjN&kuLJwYK6z'101S_T!m37^Py(T>";
         if (!passwordEncoder.matches(rawPassword + pepper, storedHashedPassword)) {
