@@ -25,7 +25,6 @@ public class UserService {
     public String authenticateUser(String username, String password) {
 
         User user = userDaoImpl.findByUsername(username);
-
         String dbPassword = user.getPassword();
 
         // If password does not match with password in DB, exception will be thrown
@@ -44,4 +43,8 @@ public class UserService {
         }
     }
 
+    // Blacklist token to handle logout
+    public void logout(String token) {
+        jwtUtil.blacklistToken(token);
+    }
 }
