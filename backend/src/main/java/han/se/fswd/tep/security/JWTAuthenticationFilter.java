@@ -1,5 +1,6 @@
 package han.se.fswd.tep.security;
 
+import han.se.fswd.tep.exceptions.InvalidTokenException;
 import han.se.fswd.tep.module.User;
 import han.se.fswd.tep.dao.UserDaoImpl;
 import han.se.fswd.tep.service.JwtUtil;
@@ -34,18 +35,23 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = getJWTFromRequest(request);
         String requestURI = request.getRequestURI();
-
-        if (token != null && jwtUtil.validateToken(token)) {
-            if ("/login".equals(requestURI)) {
-                // NOT USING EXCEPTIONS DUE TO THE FACT THAT FILTERS RUN OUTSIDE THE NORMAL MVC HANDLER
-                response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                response.getWriter().write("You are already authenticated");
-                return;  // Stop the filter chain
-            } else {
-                authenticateUserFromToken(token, request);
+        try {
+            if (token != null && jwtUtil.validateToken(token)) {
+                if ("/login".equals(requestURI)) {
+                    // NOT USING EXCEPTIONS DUE TO THE FACT THAT FILTERS RUN OUTSIDE THE NORMAL SCOPE
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    response.getWriter().write("You are already authenticated");
+                    return;
+                } else {
+                    authenticateUserFromToken(token, request);
+                }
             }
+            filterChain.doFilter(request, response);
+        } catch (InvalidTokenException ex) {
+            // NOT USING EXCEPTIONS DUE TO THE FACT THAT FILTERS RUN OUTSIDE THE NORMAL SCOPE
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().write(ex.getMessage());
         }
-        filterChain.doFilter(request, response);
     }
 
     private void authenticateUserFromToken(String token, HttpServletRequest request) {

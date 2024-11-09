@@ -62,11 +62,15 @@ public class JwtUtil {
 
     // Parse and verify claims
     public Claims verifyAndGetClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        try {
+            return Jwts.parser()
+                    .verifyWith(getSigningKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (Exception e) {
+            throw new InvalidTokenException("Invalid token", e);
+        }
     }
 
     // Check if token is expired
