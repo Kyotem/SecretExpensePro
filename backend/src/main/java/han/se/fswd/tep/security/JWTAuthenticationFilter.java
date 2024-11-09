@@ -35,20 +35,33 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = getJWTFromRequest(request);
         String requestURI = request.getRequestURI();
+
+        /*
+        User can't access the login endpoint at all if token is blacklisted
+        This means the token MUST be wiped from local memory via front-end
+        */
+
         try {
+            // If accessing a protected endpoint and token is null, block access
+            if (!"/login".equals(requestURI) && (token == null || !jwtUtil.validateToken(token))) {
+                throw new InvalidTokenException("User is not authenticated");
+            }
+
+            // For valid token, authenticate user if it's not a login request
             if (token != null && jwtUtil.validateToken(token)) {
                 if ("/login".equals(requestURI)) {
-                    // NOT USING EXCEPTIONS DUE TO THE FACT THAT FILTERS RUN OUTSIDE THE NORMAL SCOPE
-                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                    response.getWriter().write("You are already authenticated");
-                    return;
+                    // Prevent access to /login if already authenticated
+                    throw new InvalidTokenException("You are already authenticated");
                 } else {
+                    // Authenticate user for other endpoints
                     authenticateUserFromToken(token, request);
                 }
             }
+
+            // Proceed with the filter chain if all checks pass
             filterChain.doFilter(request, response);
         } catch (InvalidTokenException ex) {
-            // NOT USING EXCEPTIONS DUE TO THE FACT THAT FILTERS RUN OUTSIDE THE NORMAL SCOPE
+            // Handle invalid token
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.getWriter().write(ex.getMessage());
         }

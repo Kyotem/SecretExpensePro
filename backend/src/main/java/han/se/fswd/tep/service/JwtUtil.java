@@ -74,7 +74,7 @@ public class JwtUtil {
     }
 
     // Check if token is expired
-    private boolean isTokenExpired(Claims claims) {
+    public boolean isTokenExpired(Claims claims) {
         return claims.getExpiration().toInstant().isBefore(Instant.now());
     }
 
