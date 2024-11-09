@@ -44,7 +44,7 @@ CREATE TABLE Claims
 
 -- Inserting user testdata
 INSERT INTO Users (username, password) VALUES 
-('DeEchteJan12', '$2a$12$FgZzGDvkzfyksi6MlvhjgeRtmPbOdN1aBxT672yQj.zuN47cJr5oa'),
-('BertJan', '$2a$12$BIgcr6.3cXBd.oO4O.F/MeXO0bUS.J2dinR/bXVALn3KSGiPp2pia'),
-('JanDeMan', '$2a$12$3X2PcJbBvBjs2G/NDxr0Ae5ZfFIBizRCmDqNZiIEE3ab0r7KDe3vO')
+('DeEchteJan12', '$2a$12$kw9W/UCqQPLF9vW2XDMfjOywWY6mvCfa0/d0Fsz43Dt7rjKKZRmC2'),
+('BertJan', '$2a$12$35jSgBcEmrS.FpaudlbUi.92OtOr1fYSJZu8JnGic1EZ0WGCZfM1e'),
+('JanDeMan', '$2a$12$hNHQeT26qA9Y7hmH06nIcen04nkSyxQR7QY6x71skfOy1.JmSt8ya')
 
