@@ -44,7 +44,9 @@ public class UserService {
     }
 
     // Blacklist token to handle logout
-    public void logout(String token) {
+    public void blacklistToken(String token) {
+        if (token != null && jwtUtil.validateToken(token)) {
         jwtUtil.blacklistToken(token);
+        }
     }
 }
