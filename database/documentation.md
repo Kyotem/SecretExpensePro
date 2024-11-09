@@ -7,10 +7,10 @@
 - **Reason**: The IDENTITY constraint ensures each user has a unique ID.
 
 ## username
-- **Data Type**: VARCHAR(20)
+- **Data Type**: VARCHAR(16)
 - **Constraints**: UNIQUE, NOT NULL
 - **Description**: The username of the user.
-- **Reason**: Limited to 20 characters for short usernames, only unique usernames to prevent duplicate accounts.
+- **Reason**: Limited to 16 characters for short usernames, only unique usernames to prevent duplicate accounts.
 - **Checks**:
   - `CK_username_length`: Ensures the length of the username is between 3 and 16 characters.
   - `CK_username_characters`: Ensures the username contains only alphanumeric characters.
@@ -40,18 +40,18 @@
   - `FK_Claim_User`: Ensures `user_id` refers to an existing user in the Users table.
 
 ## title
-- **Data Type**: VARCHAR(50)
+- **Data Type**: VARCHAR(10)
 - **Constraints**: NOT NULL
 - **Description**: Title of the claim.
-- **Reason**: Limited to 50 characters to encourage concise descriptions.
+- **Reason**: Limited to 10 characters to encourage concise descriptions.
 - **Checks**:
   - `CK_title_length`: Ensures the length of the title is between 3 and 10 characters.
 
 ## description
-- **Data Type**: VARCHAR(150)
+- **Data Type**: VARCHAR(50)
 - **Constraints**: NOT NULL
 - **Description**: Detailed description of the claim.
-- **Reason**: 150 characters provide enough space for clarity while remaining manageable.
+- **Reason**: 50 characters provide enough space for clarity while remaining manageable.
 - **Checks**:
   - `CK_description_length`: Ensures the length of the description is between 3 and 50 characters.
 
