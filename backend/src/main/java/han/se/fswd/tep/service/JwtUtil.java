@@ -47,7 +47,7 @@ public class JwtUtil {
     }
 
     // Validate a token, throw exception if invalid
-    public void validateToken(String token) {
+    public boolean validateToken(String token) {
         Claims claims = verifyAndGetClaims(token);
 
         if (isTokenBlacklisted(token)) {
@@ -57,6 +57,7 @@ public class JwtUtil {
         if (isTokenExpired(claims)) {
             throw new InvalidTokenException("Token is expired");
         }
+        return true;
     }
 
     // Parse and verify claims
@@ -72,4 +73,9 @@ public class JwtUtil {
     private boolean isTokenExpired(Claims claims) {
         return claims.getExpiration().toInstant().isBefore(Instant.now());
     }
+
+    public String getUserIdfromToken(String token) {
+        return verifyAndGetClaims(token).getSubject();
+    }
+
 }
