@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,17 +37,19 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         if (token != null && jwtUtil.validateToken(token)) {
             if ("/login".equals(requestURI)) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Already logged in.");
-                return;
+                // NOT USING EXCEPTIONS DUE TO THE FACT THAT FILTERS RUN OUTSIDE THE NORMAL MVC HANDLER
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.getWriter().write("You are already authenticated");
+                return;  // Stop the filter chain
             } else {
                 authenticateUserFromToken(token, request);
             }
         }
-
         filterChain.doFilter(request, response);
     }
 
     private void authenticateUserFromToken(String token, HttpServletRequest request) {
+
         int userID = Integer.parseInt(jwtUtil.getUserIdfromToken(token));
         User user = userDaoImpl.findById(userID);
 
