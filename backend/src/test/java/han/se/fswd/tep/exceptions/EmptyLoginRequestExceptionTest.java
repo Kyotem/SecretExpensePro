@@ -4,31 +4,31 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InvalidTokenExceptionTest {
+class EmptyLoginRequestExceptionTest {
 
     @Test
     void constructorWithMessage_ShouldSetMessage() {
         // Arrange
-        String message = "Invalid Token";
+        String message = "Missing Login Request";
 
         // Act
-        InvalidTokenException ite = new InvalidTokenException(message);
+        EmptyLoginRequestException elre = new EmptyLoginRequestException(message);
 
         // Assert
-        assertEquals(message, ite.getMessage());
+        assertEquals(message, elre.getMessage());
     }
 
     @Test
     void constructorWithMessageAndCause_ShouldSetMessageAndCause() {
         // Arrange
-        String message = "Invalid Token";
+        String message = "Missing Login Request";
         RuntimeException cause = new RuntimeException("Cause of the error");
 
         // Act
-        InvalidTokenException ite = new InvalidTokenException(message, cause);
+        EmptyLoginRequestException elre = new EmptyLoginRequestException(message, cause);
 
         // Assert
-        assertEquals(message, ite.getMessage());
-        assertEquals(cause, ite.getCause());
+        assertEquals(message, elre.getMessage());
+        assertEquals(cause, elre.getCause());
     }
 }

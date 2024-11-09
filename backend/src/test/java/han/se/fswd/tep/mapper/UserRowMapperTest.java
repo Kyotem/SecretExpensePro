@@ -1,6 +1,5 @@
-package han.se.fswd.tep;
+package han.se.fswd.tep.mapper;
 
-import han.se.fswd.tep.mapper.UserRowMapper;
 import han.se.fswd.tep.module.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ class UserRowMapperTest {
     void mapRow_ValidResultSet_ReturnsUser() throws SQLException {
         // Arrange
         ResultSet resultSet = mock(ResultSet.class);
-        when(resultSet.getInt("userID")).thenReturn(1);
+        when(resultSet.getInt("id")).thenReturn(1);
         when(resultSet.getString("username")).thenReturn("testUser");
         when(resultSet.getString("password")).thenReturn("password123");
 
@@ -42,7 +41,7 @@ class UserRowMapperTest {
     void mapRow_ThrowsSQLException() throws SQLException {
         // Arrange
         ResultSet resultSet = mock(ResultSet.class);
-        when(resultSet.getInt("userID")).thenThrow(new SQLException("SQL error"));
+        when(resultSet.getInt("id")).thenThrow(new SQLException("SQL error"));
 
         // Act & Assert
         SQLException thrown = assertThrows(SQLException.class,

@@ -1,9 +1,8 @@
-package han.se.fswd.tep;
+package han.se.fswd.tep.dao;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import han.se.fswd.tep.dao.UserDaoImpl;
 import han.se.fswd.tep.exceptions.DatabaseException;
 import han.se.fswd.tep.exceptions.InvalidUserInputException;
 import han.se.fswd.tep.exceptions.UserNotFoundException;

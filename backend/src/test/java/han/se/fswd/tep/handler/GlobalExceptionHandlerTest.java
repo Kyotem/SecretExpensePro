@@ -1,9 +1,6 @@
-package han.se.fswd.tep;
+package han.se.fswd.tep.handler;
 
-import han.se.fswd.tep.exceptions.DatabaseException;
-import han.se.fswd.tep.exceptions.InvalidUserInputException;
-import han.se.fswd.tep.exceptions.UserNotFoundException;
-import han.se.fswd.tep.handler.GlobalExceptionHandler;
+import han.se.fswd.tep.exceptions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,4 +62,30 @@ class GlobalExceptionHandlerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Invalid input", response.getBody());
     }
+    @Test
+    void handleInvalidPasswordException_WhenInvalidPassword_ShouldReturnUnauthorizedErrorStatus() {
+        // Arrange
+        InvalidPasswordException ipe = new InvalidPasswordException("Invalid password");
+
+        // Act
+        ResponseEntity<String> response = sut.handleInvalidPasswordException(ipe);
+
+        // Assert
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Invalid password", response.getBody());
+    }
+
+    @Test
+    void handleEmptyLoginRequestException_WhenEmptyLoginRequest_ShouldReturnUnauthorizedErrorStatus() {
+        // Arrange
+        EmptyLoginRequestException elre = new EmptyLoginRequestException("Login request is empty");
+
+        // Act
+        ResponseEntity<String> response = sut.handleEmptyLoginRequestException(elre);
+
+        // Assert
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Login request is empty", response.getBody());
+    }
+
 }
