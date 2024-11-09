@@ -1,12 +1,12 @@
 package han.se.fswd.tep.controller;
 
+import han.se.fswd.tep.exceptions.EmptyLoginRequestException;
 import han.se.fswd.tep.module.LoginRequest;
 import han.se.fswd.tep.module.LoginResponse;
 import han.se.fswd.tep.service.UserService;
 import han.se.fswd.tep.service.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
 
         if (loginRequest.getUsername() == null || loginRequest.getPassword() == null) {
-            // TODO throw exception
+            throw new EmptyLoginRequestException("Something went wrong processing your rqeuest");
         }
 
         // Auth the user and retrieve JWT based on UserID
@@ -53,6 +53,7 @@ public class AuthController {
         // Clear the security context to log the user out
         SecurityContextHolder.clearContext();
 
+        // Better to use a DTO Object for the response FIXME
         return ResponseEntity.ok(Map.of("message", "User successfully logged out"));
     }
 
