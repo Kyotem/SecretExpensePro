@@ -14,7 +14,7 @@ const ViewClaimPage = () => {
         const fetchClaims = async () => {
             try {
                 // Virtual Mocking server
-                const response = await fetch("https://virtserver.swaggerhub.com/HELPERZAR_1/TEP_Claims_API/2.0.1/claims");
+                const response = await fetch("https://virtserver.swaggerhub.com/HELPERZAR_1/TEP_Claims_API/2.0.2/claims");
 
                 if (!response.ok) {
                     // Handle specific HTTP errors
