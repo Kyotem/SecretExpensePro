@@ -18,7 +18,7 @@ public class JwtUtil {
 
     private static final String SECRET = "GuPXPT^-TK.wuSyv4+OX\"j<~=ealJPVpQUTV5t037^Wg92m~e`";
     private static final long EXPIRATION_DURATION = 120; // Expiration time in Minutes
-    private final Set<String> tokenBlacklist = new ConcurrentSkipListSet<>(); // FIXME Look into this again
+    private final Set<String> tokenBlacklist = new ConcurrentSkipListSet<>();
 
     // Generate signing key
     private static SecretKey getSigningKey() {

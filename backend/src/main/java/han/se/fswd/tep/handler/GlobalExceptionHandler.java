@@ -1,7 +1,6 @@
 package han.se.fswd.tep.handler;
 
 import han.se.fswd.tep.exceptions.*;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
