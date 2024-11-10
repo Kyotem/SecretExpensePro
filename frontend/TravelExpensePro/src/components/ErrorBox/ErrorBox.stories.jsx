@@ -34,6 +34,8 @@ EmptyMessage.args = {
 };
 
 // Tests
+
+// Default test
 Default.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
 
@@ -42,6 +44,7 @@ Default.play = async ({ canvasElement }) => {
   ).toBeInTheDocument();
 };
 
+// Test for long message
 LongMessage.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
 
