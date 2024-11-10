@@ -7,6 +7,7 @@ const config = {
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
     "@storybook/addon-a11y",
+    "@storybook/test-runner",
   ],
   framework: {
     name: "@storybook/react-vite",
