@@ -1,11 +1,11 @@
 openapi: 3.0.0
 info:
-  version: 2.0.1
+  version: 2.0.2
   title: TEP_Claims_API
   description: API for managing travel expense claims for employees
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/HELPERZAR_1/TEP_Claims_API/2.0.1
+    url: https://virtserver.swaggerhub.com/HELPERZAR_1/TEP_Claims_API/2.0.2
 security:
   - BearerAuth: []
 paths:
@@ -88,10 +88,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ClaimsArray'
               example:
-                - title: "Taxi from airport to hotel"
+                - id: "1"
+                  title: "Taxi from airport to hotel"
                   description: "Taxi fare from Schiphol Airport to city center hotel"
                   amount: "45.75"
-                - title: "Hotel stay for business meeting"
+                - id: "2"
+                  title: "Hotel stay for business meeting"
                   description: "One-night stay at Hilton Hotel for client meeting"
                   amount: "150.00"
         "401":
@@ -131,11 +133,16 @@ components:
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"  # JWT token example
     Claim:
       required:
+        - id
         - amount
         - description
         - title
       type: object
       properties:
+        id:
+          type: string
+          description: 'Unique identifier for the expense.'
+          example: "1"
         title:
           type: string
           minLength: 3
@@ -160,10 +167,12 @@ components:
       items:
         $ref: '#/components/schemas/Claim'
       example:
-        - title: "Taxi from airport to hotel"
+        - id: "1"
+          title: "Taxi from airport to hotel"
           description: "Taxi fare from Schiphol Airport to city center hotel"
-          amount: "45.75"
-        - title: "Hotel stay for business meeting"
+          amount: "2"
+        - id: "98765-xyz-4321"
+          title: "Hotel stay for business meeting"
           description: "One-night stay at Hilton Hotel for client meeting"
           amount: "150.00"
   securitySchemes:

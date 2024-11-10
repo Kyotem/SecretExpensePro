@@ -8,10 +8,13 @@ const config = {
     "@storybook/addon-interactions",
     "@storybook/addon-a11y",
     "@storybook/test-runner",
+    '@storybook/addon-jest',
+
   ],
   framework: {
     name: "@storybook/react-vite",
     options: {},
   },
 };
+
 export default config;
