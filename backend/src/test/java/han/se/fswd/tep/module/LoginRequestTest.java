@@ -1,117 +1,104 @@
-package han.se.fswd.tep;
+package han.se.fswd.tep.module;
 
-import han.se.fswd.tep.module.User;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserTest {
+class LoginRequestTest {
 
     @Test
     void setUsername_ValidUsername_ShouldSetUsername() {
         // Arrange
-        User user = new User();
+        LoginRequest sut = new LoginRequest();  // SUT: System Under Test
         String validUsername = "validUser";
 
         // Act
-        user.setUsername(validUsername);
+        sut.setUsername(validUsername);
 
         // Assert
-        assertEquals(validUsername, user.getUsername());
+        assertEquals(validUsername, sut.getUsername());
     }
 
     @Test
     void setUsername_WhenNull_ShouldThrowIllegalArgumentException() {
         // Arrange
-        User user = new User();
+        LoginRequest sut = new LoginRequest();  // SUT: System Under Test
 
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-                () -> user.setUsername(null));
+                () -> sut.setUsername(null));
         assertEquals("Username must be between 3 and 16 characters.", thrown.getMessage());
     }
 
     @Test
     void setUsername_WhenTooShort_ShouldThrowIllegalArgumentException() {
         // Arrange
-        User user = new User();
+        LoginRequest sut = new LoginRequest();  // SUT: System Under Test
         String shortUsername = "ab"; // less than 3 characters
 
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-                () -> user.setUsername(shortUsername));
+                () -> sut.setUsername(shortUsername));
         assertEquals("Username must be between 3 and 16 characters.", thrown.getMessage());
     }
 
     @Test
     void setUsername_WhenTooLong_ShouldThrowIllegalArgumentException() {
         // Arrange
-        User user = new User();
+        LoginRequest sut = new LoginRequest();  // SUT: System Under Test
         String longUsername = "thisIsAReallyLongUsername"; // more than 16 characters
 
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-                () -> user.setUsername(longUsername));
+                () -> sut.setUsername(longUsername));
         assertEquals("Username must be between 3 and 16 characters.", thrown.getMessage());
     }
 
     @Test
     void setPassword_ValidPassword_ShouldSetPassword() {
         // Arrange
-        User user = new User();
+        LoginRequest sut = new LoginRequest();  // SUT: System Under Test
         String validPassword = "password123";
 
         // Act
-        user.setPassword(validPassword);
+        sut.setPassword(validPassword);
 
         // Assert
-        assertEquals(validPassword, user.getPassword());
+        assertEquals(validPassword, sut.getPassword());
     }
 
     @Test
     void setPassword_WhenNull_ShouldThrowIllegalArgumentException() {
         // Arrange
-        User user = new User();
+        LoginRequest sut = new LoginRequest();  // SUT: System Under Test
 
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-                () -> user.setPassword(null));
+                () -> sut.setPassword(null));
         assertEquals("Password must be between 3 and 60 characters.", thrown.getMessage());
     }
 
     @Test
     void setPassword_WhenTooShort_ShouldThrowIllegalArgumentException() {
         // Arrange
-        User user = new User();
+        LoginRequest sut = new LoginRequest();  // SUT: System Under Test
         String shortPassword = "12"; // less than 3 characters
 
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-                () -> user.setPassword(shortPassword));
+                () -> sut.setPassword(shortPassword));
         assertEquals("Password must be between 3 and 60 characters.", thrown.getMessage());
     }
 
     @Test
     void setPassword_WhenTooLong_ShouldThrowIllegalArgumentException() {
         // Arrange
-        User user = new User();
-        String longPassword = "a".repeat(73); // more than 72 characters
+        LoginRequest sut = new LoginRequest();  // SUT: System Under Test
+        String longPassword = "a".repeat(61); // more than 60 characters
 
         // Act & Assert
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class,
-                () -> user.setPassword(longPassword));
+                () -> sut.setPassword(longPassword));
         assertEquals("Password must be between 3 and 60 characters.", thrown.getMessage());
-    }
-
-    @Test
-    void testToString_ShouldReturnCorrectStringRepresentation() {
-        // Arrange
-        User user = new User(1, "testUser", "password123");
-
-        // Act
-        String result = user.toString();
-
-        // Assert
-        assertEquals("User{id=1, username='testUser', password='password123'}", result);
     }
 }

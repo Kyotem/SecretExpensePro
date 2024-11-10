@@ -1,5 +1,6 @@
 package han.se.fswd.tep.security;
 
+import han.se.fswd.tep.exceptions.InvalidTokenException;
 import han.se.fswd.tep.module.User;
 import han.se.fswd.tep.dao.UserDaoImpl;
 import han.se.fswd.tep.service.JwtUtil;
@@ -8,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,19 +36,39 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         String token = getJWTFromRequest(request);
         String requestURI = request.getRequestURI();
 
-        if (token != null && jwtUtil.validateToken(token)) {
-            if ("/login".equals(requestURI)) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Already logged in.");
-                return;
-            } else {
-                authenticateUserFromToken(token, request);
-            }
-        }
+        /*
+        User can't access the login endpoint at all if token is blacklisted
+        This means the token MUST be wiped from local memory via front-end
+        */
 
-        filterChain.doFilter(request, response);
+        try {
+            // If accessing a protected endpoint and token is null, block access
+            if (!"/login".equals(requestURI) && (token == null || !jwtUtil.validateToken(token))) {
+                throw new InvalidTokenException("User is not authenticated");
+            }
+
+            // For valid token, authenticate user if it's not a login request
+            if (token != null && jwtUtil.validateToken(token)) {
+                if ("/login".equals(requestURI)) {
+                    // Prevent access to /login if already authenticated
+                    throw new InvalidTokenException("You are already authenticated");
+                } else {
+                    // Authenticate user for other endpoints
+                    authenticateUserFromToken(token, request);
+                }
+            }
+
+            // Proceed with the filter chain if all checks pass
+            filterChain.doFilter(request, response);
+        } catch (InvalidTokenException ex) {
+            // Handle invalid token
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().write(ex.getMessage());
+        }
     }
 
     private void authenticateUserFromToken(String token, HttpServletRequest request) {
+
         int userID = Integer.parseInt(jwtUtil.getUserIdfromToken(token));
         User user = userDaoImpl.findById(userID);
 

@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -20,17 +21,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder(strength);
     }
 
-    // Temporarily using a bypass, otherwise it would not have been possible to run app. (It's all deprecated and a bit bull, DO NOT PUSH TO PROD)
-    // FIXME: Remove this, implement proper security once JWT tokens can be issued & authorized
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+        http .logout(logout -> logout.disable())
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/login").permitAll()
                         .anyRequest().authenticated()
-
-                ).csrf(csrf -> csrf.disable());
-
+                ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .csrf(csrf -> csrf.disable());
         return http.build();
     }
 }

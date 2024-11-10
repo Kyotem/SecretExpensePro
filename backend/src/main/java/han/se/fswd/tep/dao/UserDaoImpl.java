@@ -29,7 +29,7 @@ public class UserDaoImpl implements UserDao {
             throw new InvalidUserInputException("Username must be between 3 and 16 characters");
         }
 
-        String sql = "SELECT userID, username, password FROM users WHERE username = ?";
+        String sql = "SELECT id, username, password FROM users WHERE username = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new UserRowMapper(), username);
         } catch (EmptyResultDataAccessException e) {
@@ -48,7 +48,7 @@ public class UserDaoImpl implements UserDao {
             throw new InvalidUserInputException("User ID must be a positive integer");
         }
 
-        String sql = "SELECT userID, username, password FROM users WHERE id = ?";
+        String sql = "SELECT id, username, password FROM users WHERE id = ?";
         try {
             // Query the database for the user with the given userId
             return jdbcTemplate.queryForObject(sql, new UserRowMapper(), userId);

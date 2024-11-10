@@ -18,7 +18,7 @@ public class JwtUtil {
 
     private static final String SECRET = "GuPXPT^-TK.wuSyv4+OX\"j<~=ealJPVpQUTV5t037^Wg92m~e`";
     private static final long EXPIRATION_DURATION = 120; // Expiration time in Minutes
-    private final Set<String> tokenBlacklist = new ConcurrentSkipListSet<>(); // FIXME Look into this again
+    private final Set<String> tokenBlacklist = new ConcurrentSkipListSet<>();
 
     // Generate signing key
     private static SecretKey getSigningKey() {
@@ -62,15 +62,19 @@ public class JwtUtil {
 
     // Parse and verify claims
     public Claims verifyAndGetClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        try {
+            return Jwts.parser()
+                    .verifyWith(getSigningKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (Exception e) {
+            throw new InvalidTokenException("Invalid token", e);
+        }
     }
 
     // Check if token is expired
-    private boolean isTokenExpired(Claims claims) {
+    public boolean isTokenExpired(Claims claims) {
         return claims.getExpiration().toInstant().isBefore(Instant.now());
     }
 

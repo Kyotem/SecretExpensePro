@@ -1,8 +1,6 @@
 package han.se.fswd.tep.handler;
 
-import han.se.fswd.tep.exceptions.DatabaseException;
-import han.se.fswd.tep.exceptions.InvalidUserInputException;
-import han.se.fswd.tep.exceptions.UserNotFoundException;
+import han.se.fswd.tep.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,4 +28,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<String> handleInvalidPasswordException(InvalidPasswordException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(EmptyLoginRequestException.class)
+    public ResponseEntity<String> handleEmptyLoginRequestException(EmptyLoginRequestException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+
+
 }
