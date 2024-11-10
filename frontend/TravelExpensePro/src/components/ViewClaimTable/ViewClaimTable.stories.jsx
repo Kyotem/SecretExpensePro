@@ -2,6 +2,8 @@ import React from 'react';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import ViewClaimTable from './ViewClaimTable';
+import './ViewClaimTable.css';
+import '../../global.css';
 
 const meta = {
   component: ViewClaimTable,

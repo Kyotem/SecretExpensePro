@@ -1,8 +1,10 @@
 // ErrorBox.stories.js
 import React from "react";
 import ErrorBox from "./ErrorBox";
+import './ErrorBox.css';
 import { within, userEvent } from "@storybook/testing-library";
 import { expect } from "@storybook/jest";
+import '../../global.css';
 
 
 export default {

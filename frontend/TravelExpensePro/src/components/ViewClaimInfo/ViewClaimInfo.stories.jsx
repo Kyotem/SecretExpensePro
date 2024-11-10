@@ -2,6 +2,8 @@ import React from 'react';
 import ViewClaimInfo from './ViewClaimInfo';
 import { within, userEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+import './ViewClaimInfo.css';
+import '../../global.css';
 
 const meta = {
   component: ViewClaimInfo,
