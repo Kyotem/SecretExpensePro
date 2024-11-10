@@ -57,20 +57,7 @@ const ViewClaimPage = () => {
                 <ErrorBox message={error} />
             ) : (
                 <div>
-                    <ViewClaimContainer totalClaims={totalClaims} totalAmount={totalAmount} />
-
-                    {/* This section goes into ViewClaimContainer + Table and TableRow */}
-                    <div className="claims-table">
-                        {/* Render each claim */}
-                        {claims.map(claim => (
-                            <div key={claim.id} className="claim-item">
-                                <p>Title: {claim.title}</p>
-                                <p>Description: {claim.description}</p>
-                                <p>Amount: €{claim.amount}</p>
-                            </div>
-                        ))}
-                    </div>
-
+                    <ViewClaimContainer totalClaims={totalClaims} totalAmount={totalAmount} claims={claims}/>
                 </div>
             )}
         </div>
