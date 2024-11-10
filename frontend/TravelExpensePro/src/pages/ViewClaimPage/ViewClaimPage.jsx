@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ViewClaimContainer from "../../components/ViewClaimContainer/ViewClaimContainer.jsx";
 import ErrorBox from '../../components/errorbox/errorbox.jsx';
 import Header from '../../components/Header/Header.jsx';
 import "./ViewClaimPage.css";
@@ -56,12 +57,7 @@ const ViewClaimPage = () => {
                 <ErrorBox message={error} />
             ) : (
                 <div>
-                    <h1>Claims</h1>
-                    {/* This section goes into ViewClaimContainer/ViewClaimInfo */}
-                    <div className="totals">
-                        <p>Total Claims: {totalClaims}</p>
-                        <p>Total Cost: €{totalAmount}</p>
-                    </div>
+                    <ViewClaimContainer totalClaims={totalClaims} totalAmount={totalAmount} />
 
                     {/* This section goes into ViewClaimContainer + Table and TableRow */}
                     <div className="claims-table">

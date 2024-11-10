@@ -1,0 +1,17 @@
+.view-claim-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 90%;
+    max-width: 90vw;
+    max-height: 90vh;
+    margin: 40px auto;
+    text-align: center;
+  }
+  
+  .view-claim-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  

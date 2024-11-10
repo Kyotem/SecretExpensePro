@@ -1,0 +1,14 @@
+.view-claim-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-size: 1.2rem;
+  }
+  
+  .view-claim-info p {
+    margin: 5px 0;
+    text-align: center;
+  }
+  
